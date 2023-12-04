@@ -1,17 +1,26 @@
-import logo from "./logo.svg";
 import "./App.css";
-import Add from "./components/add";
-import AddsList from "./components/AddsList";
-import adds from "./helpers/adds.json";
+import AdsList from "./components/AdsList";
+import ads from "./helpers/ads.json";
 import { useState } from "react";
-import "./addStyle.css";
+import "./adStyle.css";
+import CreateAd from "./components/CreateAd";
+import generateRentalItem from "./helpers/adsRandomGenerator";
+import Navbar from "./components/Navbar";
+import SearchBar from "./components/SearchBar";
+
 function App() {
-  const [initialAdds, setAdds] = useState(adds);
+  const rentalItems = Array.from({ length: 100 }, generateRentalItem);
+  const [initialAds, setAds] = useState(rentalItems);
+  //HEre call the DataBase and get some ads to initialize
+
   return (
     <div className="App">
       <h1 className="AppTitle">ShareAll</h1>
+      <Navbar />
+      <SearchBar />
       <span>
-        <AddsList adds={initialAdds} />
+        <AdsList ads={initialAds} />
+        <CreateAd />
       </span>
     </div>
   );
