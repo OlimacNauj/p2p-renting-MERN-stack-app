@@ -1,7 +1,7 @@
 import UserRating from "./UserRating";
 
-const Add = ({
-  add: { id, user_reviews, description, title, price, type, location, img_url },
+const Ad = ({
+  ad: { id, user_reviews, description, title, price, type, location, img_url },
 }) => {
   return (
     <div className="image-container">
@@ -16,4 +16,4 @@ const Add = ({
   );
 };
 
-export default Add;
+export default Ad;
