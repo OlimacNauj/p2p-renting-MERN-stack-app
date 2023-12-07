@@ -1,24 +1,56 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const NavBar = ({ isLoggedIn, onLogout }) => {
+const Navbar = ({ isLoggedIn, handleLogout = (f) => f }) => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("userToken");
+
   return (
-    <nav>
-      <span>
-        <Link to="/">
-          <img src="/pictures/logo1.jpeg" height={40} alt="Logo" />
-        </Link>
-
-        <Link to="/categories">Categories</Link>
-        <Link to="/about">About Us</Link>
-        {isLoggedIn ? (
-          <button onClick={onLogout}>Logout</button>
-        ) : (
-          <Link to="/login">Login</Link>
-        )}
-      </span>
+    <nav className="navbar navbar-expand-lg  navbar-dark bg-dark">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div className="navbar-nav">
+          <Link className="nav-item nav-link active" to="/">
+            Home <span className="sr-only"></span>
+          </Link>
+          {token ? (
+            <Link className="nav-item nav-link" to="/">
+              Logout
+            </Link>
+          ) : (
+            <Link className="nav-item nav-link" to="/login">
+              Login
+            </Link>
+          )}
+          {/* <Link className="nav-item nav-link" to="/categories">
+            Categories
+          </Link> */}
+          <Link className="nav-item nav-link" to="/createAd">
+            Share something
+          </Link>
+          <Link className="nav-item nav-link" to="/myAds">
+            My Ads
+          </Link>
+          <Link className="nav-item nav-link " to="/about">
+            About
+          </Link>
+          <Link className="nav-item nav-link " to="/register">
+            Register
+          </Link>
+        </div>
+      </div>
     </nav>
   );
 };
 
-export default NavBar;
+export default Navbar;

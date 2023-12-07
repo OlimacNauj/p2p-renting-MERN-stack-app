@@ -1,14 +1,15 @@
 import UserRating from "./UserRating";
 
 const Ad = ({
-  ad: { id, user_reviews, description, title, price, type, location, img_url },
+  ad: { id, user_reviews, description, title, price, category, image },
 }) => {
+  const imageUrl = `http://localhost:5000/uploads/${image}`;
   return (
     <div className="image-container">
-      <img src={img_url} />
+      <img src={imageUrl} />
       <p>
         {title} <br />
-        {location} <br></br>${price} , {type}
+        <br></br>${price}, {category}
         <br />
         <UserRating rating={user_reviews} />
       </p>
