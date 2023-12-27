@@ -416,7 +416,6 @@ app.put("/api/ads/update/:adId", upload.single("image"), async (req, res) => {
 
     // Get the ad ID from the request parameters
     const adId = req.params.adId;
-
     // Check if the user is authorized to update this ad
     const ad = await Ad.findById(adId);
 
