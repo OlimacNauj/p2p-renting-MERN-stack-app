@@ -1,7 +1,11 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-const Navbar = ({ isLoggedIn, handleLogout = (f) => f }) => {
+import SearchBar from "./SearchBar";
+const Navbar = ({
+  isLoggedIn,
+  handleLogout = (f) => f,
+  onSearch = (f) => f,
+}) => {
   const navigate = useNavigate();
   const token = localStorage.getItem("userToken");
 
@@ -20,13 +24,18 @@ const Navbar = ({ isLoggedIn, handleLogout = (f) => f }) => {
       </button>
       <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div className="navbar-nav">
-          <Link className="nav-item nav-link active" to="/">
+          <Link className="nav-item nav-link" to="/">
             Home <span className="sr-only"></span>
           </Link>
           {token ? (
-            <Link className="nav-item nav-link" to="/">
-              Logout
-            </Link>
+            <>
+              <Link className="nav-item nav-link" to="/" onClick={handleLogout}>
+                Logout
+              </Link>
+              <Link className="nav-item nav-link" to="/myAds">
+                My Ads
+              </Link>
+            </>
           ) : (
             <Link className="nav-item nav-link" to="/login">
               Login
@@ -38,9 +47,7 @@ const Navbar = ({ isLoggedIn, handleLogout = (f) => f }) => {
           <Link className="nav-item nav-link" to="/createAd">
             Share something
           </Link>
-          <Link className="nav-item nav-link" to="/myAds">
-            My Ads
-          </Link>
+
           <Link className="nav-item nav-link " to="/about">
             About
           </Link>
@@ -49,6 +56,7 @@ const Navbar = ({ isLoggedIn, handleLogout = (f) => f }) => {
           </Link>
         </div>
       </div>
+      <SearchBar onSearch={onSearch} />
     </nav>
   );
 };

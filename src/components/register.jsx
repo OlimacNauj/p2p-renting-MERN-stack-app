@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { tr } from "@faker-js/faker";
+
 const Register = () => {
   // State to manage form input values
   const [username, setUsername] = useState("");

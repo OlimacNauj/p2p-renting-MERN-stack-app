@@ -44,44 +44,47 @@ const UserAds = () => {
       console.error("Error fetching ads:", error);
     }
   };
+  if (localStorage.getItem("userToken")) {
+    return (
+      <div className="mt-5">
+        <table className="table table-dark">
+          <thead>
+            <tr>
+              <th scope="col">Title</th>
+              <th scope="col">Category</th>
+              <th scope="col">Price</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {ads ? (
+              ads.map((ad, i) => (
+                <tr key={i}>
+                  <td>{ad.title}</td>
+                  <td>{ad.category}</td>
+                  <td>{ad.price}</td>
+                  <td>
+                    <Link to={`/updateAd/${ad._id}`}>
+                      <FaEdit />
+                    </Link>
 
-  return (
-    <div className="mt-5">
-      <table className="table table-dark">
-        <thead>
-          <tr>
-            <th scope="col">Title</th>
-            <th scope="col">Category</th>
-            <th scope="col">Price</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {ads ? (
-            ads.map((ad, i) => (
-              <tr key={i}>
-                <td>{ad.title}</td>
-                <td>{ad.category}</td>
-                <td>{ad.price}</td>
-                <td>
-                  <Link to={`/updateAd/${ad._id}`}>
-                    <FaEdit />
-                  </Link>
-
-                  <FaTrash
-                    onClick={() => handleDelete(ad._id)}
-                    style={{ cursor: "pointer" }}
-                  />
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>No ads to show</tr>
-          )}
-        </tbody>
-      </table>
-    </div>
-  );
+                    <FaTrash
+                      onClick={() => handleDelete(ad._id)}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>No ads to show</tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    );
+  } else {
+    return <h1>Please Login to see your ads</h1>;
+  }
 };
 
 export default UserAds;

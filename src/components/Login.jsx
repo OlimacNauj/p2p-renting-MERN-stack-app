@@ -7,6 +7,7 @@ const Login = ({ handleLogin = (f) => f }) => {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState(" ");
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const serverURL = `http://localhost:5000/api/login`;
@@ -24,17 +25,17 @@ const Login = ({ handleLogin = (f) => f }) => {
         }
       );
       const data = response.data;
-      console.log(data);
+      // console.log(data);
       if (data.token) {
         // console.log(data.token);
         localStorage.setItem("userToken", data.token);
         localStorage.setItem("username", data.username);
         console.log(localStorage.getItem("userToken"));
         setMessage(``);
-        alert("Back to Sharing");
-        navigate("/");
+        alert("You're back to Sharing");
+        navigate("/myAds");
       } else {
-        setMessage(data.message);
+        alert(data.message);
       }
     } catch (error) {
       console.log(`error getting the server data ${error}`);

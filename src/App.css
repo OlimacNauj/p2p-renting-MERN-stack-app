@@ -7,11 +7,6 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
 .App-header {
   background-color: #282c34;
@@ -41,4 +36,21 @@ body, html {
 }
 .bg-soft-gray {
   min-height: 100%;
+}
+
+.banner{
+  margin: auto;
+  width: 100%;
+  padding: 3px;
+  background-color: #fdf9ed;
+}
+.banner-image{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
+}
+.AppTitle{
+  color: #fc7b67;
+  text-align: center;
 }

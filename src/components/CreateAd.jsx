@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
 const CreateAd = ({ fetchdata = (f) => f }) => {
-  console.log(localStorage.getItem("userToken"));
   const navigate = useNavigate();
+  // Get the user JWT token
   const token = localStorage.getItem("userToken");
   // set the initial values and states
   const [title, setTitle] = useState("");
@@ -12,6 +12,7 @@ const CreateAd = ({ fetchdata = (f) => f }) => {
   const [category, setCategory] = useState("");
   const [image, setImage] = useState(null);
   const [message, setMessage] = useState("");
+  const [type, setType] = useState("");
   //Prepare a form to send the data
   const formData = new FormData();
   // handle the modification of picture
@@ -24,12 +25,13 @@ const CreateAd = ({ fetchdata = (f) => f }) => {
   const handleSubmit = async (event) => {
     // prevent reload of the page
     event.preventDefault();
-    console.log(localStorage.getItem("userToken"));
+    // console.log(localStorage.getItem("userToken"));
     formData.append("title", title);
     formData.append("price", price);
     formData.append("description", description);
     formData.append("category", category);
     formData.append("image", image);
+    formData.append("type", type);
 
     console.log(formData);
     try {
@@ -62,7 +64,7 @@ const CreateAd = ({ fetchdata = (f) => f }) => {
       <div className="container mt-5">
         <div className="row justify-content-center">
           <div className="col-md-6">
-            <h3 className="mb-4">What do you want to rent? </h3>
+            <h3 className="mb-4"> What do you want to rent? </h3>
             <h4 className="text-danger">{message}</h4>
             <p>Share what you have and make some money in the process</p>
             <form
@@ -72,34 +74,42 @@ const CreateAd = ({ fetchdata = (f) => f }) => {
             >
               <div className="mb-3">
                 <input
+                  value={title}
                   type="text"
                   name="title"
                   placeholder="Title"
                   onChange={(e) => setTitle(e.target.value)}
                   autoComplete="off"
+                  required
                 />
                 <input
+                  value={price}
                   type="number"
                   name="price"
                   placeholder="$"
                   onChange={(e) => setPrice(e.target.value)}
+                  required
                 />
                 <br />
                 <textarea
                   name="description"
+                  value={description}
                   placeholder="Describe what you rent..."
                   onChange={(e) => setDescription(e.target.value)}
                   autocomplete="off"
+                  required
                 ></textarea>
                 <h3>Upload a picture for your ad</h3>
                 <input
                   type="file"
                   name="image"
                   onChange={handlePictureUpload}
+                  required
                 />
                 <select
                   name="category"
                   onChange={(e) => setCategory(e.target.value)}
+                  required
                 >
                   <option value="">Select a Rental Category</option>
                   <option value="electronics">Electronics</option>
@@ -116,13 +126,24 @@ const CreateAd = ({ fetchdata = (f) => f }) => {
                   <option value="furniture">Furniture</option>
                   <option value="other">Other</option>
                 </select>
+                <select
+                  value={type}
+                  name="type"
+                  onChange={(e) => setType(e.target.value)}
+                  required
+                >
+                  <option value="">Select type of rental</option>
+                  <option value="daily">Daily </option>
+                  <option value="monthly">Monthly</option>
+                  <option value="hourly">Hourly</option>
+                </select>
               </div>
 
               <button type="submit">Submit</button>
             </form>
             <img
-              height="300px"
-              src={image ? URL.createObjectURL(image) : ""}
+              height="200px"
+              src={image ? URL.createObjectURL(image) : "/pictures/logo1.jpeg"}
               alt="Uploaded Preview"
             />
           </div>
