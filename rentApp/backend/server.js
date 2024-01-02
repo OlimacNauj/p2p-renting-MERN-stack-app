@@ -192,22 +192,25 @@ app.get("/api/ads/:id", async (req, res) => {
   }
 });
 
-///Get ADS based on parameters
+///SEARCH ADDS//////// Get ADS based on parameters
 app.get("/api/search", async (req, res) => {
   // get the query parameters
   try {
     const query = req.query;
     const queryArray = query.item.split(" ");
-    console.log(queryArray);
+    const category = query.category;
+    console.log(query);
+
     // open connection with db
     await mongoose.connect(DBURL);
     console.log("searching items");
     // Search the db
     try {
       const results = await Ad.find({
-        title: { $in: queryArray },
+        //find all elements containing words in the query, case insensitive
+        title: { $regex: RegExp(queryArray), $options: "i" },
+        category: category,
       });
-      console.log(results);
       if (results != []) {
         console.log(results);
         //send results
@@ -221,7 +224,8 @@ app.get("/api/search", async (req, res) => {
   } catch (error) {
     console.log(`Error during the search ${error}`);
   } finally {
-    mongoose.connection.close();
+    await mongoose.connection.close();
+    console.log("Connection with the DB closed");
   }
 });
 
