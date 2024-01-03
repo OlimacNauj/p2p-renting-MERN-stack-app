@@ -19,7 +19,7 @@ import Register from "./components/register";
 import JokeApi from "./components/JokeApi";
 import axios from "axios";
 //SERVER URL
-const serverURL = `http://localhost:5000`;
+const serverURL = process.env.REACT_APP_BACKEND_URL;
 function App() {
   const [initialAds, setAds] = useState([]);
   //Call the DataBase and get some ads to initialize
@@ -64,17 +64,23 @@ function App() {
     alert("You are now logged out");
   }
 
+  //Get searched items from the server
   const onSearch = async (searchitem, category) => {
-    //Get the items from the server
-    //Construct the url
-    const searchstring = searchitem.replaceAll(" ", "+");
-    console.log(searchstring);
-    const url = `${serverURL}/api/search?item=${searchstring}&category=${category}`;
-    //TODO , use query parameters
-    const response = await axios.get(url);
-    if (response.status === 200) {
-      setAds(response.data);
+    try {
+      const searchstring = searchitem.replaceAll(" ", "+");
+      //Construct the url with the query params
+      const url = `${serverURL}/api/search?item=${searchstring}&category=${category}`;
+      const response = await axios.get(url);
+      if (response.status === 200) {
+        setAds(response.data);
+      } else {
+        alert("No results for you search");
+      }
+    } catch (error) {
+      alert("No results for you search");
+      console.log(error);
     }
+
     // console.log(response);
   };
 
@@ -90,7 +96,7 @@ function App() {
       <Routes>
         <Route path="/createAd" element={<CreateAd />} />
         <Route path="/" element={<AdsList ads={initialAds} />} />
-        <Route path="/login" element={<Login handleLogin={handleLogin} />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/about" element={<About />} />
         <Route path="/myAds" element={<UserAds />} />
         <Route path="/register" element={<Register />} />

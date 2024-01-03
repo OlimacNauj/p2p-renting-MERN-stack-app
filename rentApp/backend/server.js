@@ -17,12 +17,12 @@ import multer from "multer";
 import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
-
+import { env } from "process";
 // My url for the DB
 const DBURL = "mongodb://localhost:27017/rentApp";
 
 // My server/ backend port
-const port = process.env.PORT || 5000;
+const port = process.env.REACT_APP_BACKEND_URL || 5000;
 
 // Create the express App:
 const app = express();
@@ -211,7 +211,7 @@ app.get("/api/search", async (req, res) => {
         title: { $regex: RegExp(queryArray), $options: "i" },
         category: category,
       });
-      if (results != []) {
+      if (results.length != 0) {
         console.log(results);
         //send results
         res.send(results);
@@ -219,9 +219,11 @@ app.get("/api/search", async (req, res) => {
         res.status(404).send("Item not found");
       }
     } catch (error) {
+      res.status(500).send("Server error");
       console.log(error);
     }
   } catch (error) {
+    res.status(500).send("Server error");
     console.log(`Error during the search ${error}`);
   } finally {
     await mongoose.connection.close();
@@ -408,10 +410,13 @@ app.put("/api/ads/update/:adId", upload.single("image"), async (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
 
   if (!token) {
-    return res.status(401).json({
-      success: false,
-      message: "Error, authorization missing, please login",
-    });
+    return res
+      .status(401)
+      .json({
+        success: false,
+        message: "Error, authorization missing, please login",
+      })
+      .send();
   }
   try {
     // Decode the token
@@ -422,7 +427,7 @@ app.put("/api/ads/update/:adId", upload.single("image"), async (req, res) => {
     const adId = req.params.adId;
     // Check if the user is authorized to update this ad
     const ad = await Ad.findById(adId);
-
+    console.log(ad);
     if (!ad || ad.user.toString() !== userId) {
       return res.status(403).json({
         success: false,

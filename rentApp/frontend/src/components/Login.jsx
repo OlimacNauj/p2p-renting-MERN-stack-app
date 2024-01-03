@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
-const Login = ({ handleLogin = (f) => f }) => {
+const Login = ({ handleLogin = (f) => f, serverURL }) => {
   // Set states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -10,10 +10,10 @@ const Login = ({ handleLogin = (f) => f }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const serverURL = `http://localhost:5000/api/login`;
+    const LoginURL = `${process.env.REACT_APP_BACKEND_URL}/api/login`;
     try {
       const response = await axios.post(
-        serverURL,
+        LoginURL,
         {
           email: email.toLocaleLowerCase(),
           password: password,

@@ -21,13 +21,13 @@ const UpdateAd = () => {
     const getAd = async () => {
       //get hold of the token
       const token = localStorage.getItem("userToken");
-      const getUrl = `http://localhost:5000/api/ads/${adID}`;
+      const getUrl = `${process.env.REACT_APP_BACKEND_URL}/api/ads/${adID}`;
       try {
         const response = await axios.get(getUrl);
         const data = response.data;
         console.log(data);
         //Deconstruct the data
-        const { title, price, description, category, image, user, type } = data;
+        const { title, price, description, category, image, type } = data;
         setTitle(title);
         setPrice(Number(price));
         setDescription(description);
@@ -61,18 +61,17 @@ const UpdateAd = () => {
     try {
       // Get hold of the token to use it in the authorization for the request
       const token = localStorage.getItem("userToken");
-      console.log(localStorage.getItem("userToken"));
+      // console.log(localStorage.getItem("userToken"));
       formData.append("title", title);
       formData.append("price", price);
       formData.append("description", description);
       formData.append("category", category);
       formData.append("type", type);
       formData.append("image", image);
-      console.log(formData);
 
       try {
-        const updateURL = `http://localhost:5000/api/ads/update/${adID}`;
-        const response = await axios.post(updateURL, formData, {
+        const updateURL = `${process.env.REACT_APP_BACKEND_URL}/api/ads/update/${adID}`;
+        const response = await axios.put(updateURL, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`,
@@ -87,6 +86,7 @@ const UpdateAd = () => {
         } else {
           // Handle error, e.g., display an error message
           console.error("Failed to update the ad");
+          console.log(updateURL);
         }
       } catch (error) {
         console.error("Error sending the update:", error);
@@ -161,7 +161,9 @@ const UpdateAd = () => {
       </form>
       <img
         height="300px"
-        src={image ? `http://localhost:5000/uploads/${image}` : ""}
+        src={
+          image ? `${process.env.REACT_APP_BACKEND_URL}/uploads/${image}` : ""
+        }
         alt="Uploaded Preview"
       />
     </div>

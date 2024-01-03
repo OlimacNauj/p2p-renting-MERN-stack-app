@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const Register = () => {
+const Register = ({ serverURL }) => {
   // State to manage form input values
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -11,9 +11,9 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Perform sign-up logic here, e.g., make an API call
-    const url = "http://localhost:5000/api/register";
+    const RegisterURL = `${process.env.REACT_APP_BACKEND_URL}/api/register`;
     try {
-      const response = await axios.post(url, {
+      const response = await axios.post(RegisterURL, {
         username,
         email,
         password,

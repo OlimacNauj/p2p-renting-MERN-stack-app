@@ -15,7 +15,7 @@ const UserAds = () => {
 
   const handleDelete = async (adId) => {
     // TODO Implement delete functionality
-    const deleteUrl = `http://localhost:5000/api/users/ads/${adId}`;
+    const deleteUrl = `${process.env.REACT_APP_BACKEND_URL}/api/users/ads/${adId}`;
     const response = await axios.delete(deleteUrl, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -25,18 +25,16 @@ const UserAds = () => {
     getAds();
   };
 
-  const handleEdit = (adId) => {
-    // TODO Implement edit functionality
-    console.log("Editing ad with id:", adId);
-  };
-
   const getAds = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/users/ads", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/api/users/ads`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       console.log(response);
       // Set the ads from the response
       setAds(response.data);

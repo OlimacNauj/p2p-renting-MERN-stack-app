@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
-const CreateAd = ({ fetchdata = (f) => f }) => {
+const CreateAd = ({ fetchdata = (f) => f, serverURL }) => {
   const navigate = useNavigate();
   // Get the user JWT token
   const token = localStorage.getItem("userToken");
@@ -35,8 +35,8 @@ const CreateAd = ({ fetchdata = (f) => f }) => {
 
     console.log(formData);
     try {
-      const serverURL = "http://localhost:5000/api/ads/create";
-      const response = await axios.post(serverURL, formData, {
+      const reqURL = `${process.env.REACT_APP_BACKEND_URL}/api/ads/create`;
+      const response = await axios.post(reqURL, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
